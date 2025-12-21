@@ -1,0 +1,6 @@
+*.zip
+__pycache__
+*.code-workspace
+*.exe
+*.mp4
+*.dat
