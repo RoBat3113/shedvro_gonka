@@ -1,6 +1,7 @@
 import pygame
 import game
 import core
+import pygame.mixer
 #import font
 #import lan
 
@@ -28,5 +29,4 @@ while core.running:
     g.draw(screen)
     pygame.display.flip() # показать кадр на экране
     clock.tick(core.max_fps) # скорость игры
-
 pygame.quit()

@@ -9,7 +9,7 @@ class Block:
         self.y = random.random() * wolrd_height * -1
         self.w = w
         self.h = h
-        self.texture = 'kamen2'
+        self.texture = 'kamen'
     
     def move(self, dt, car: car.Car):
         self.x -= car.x 
