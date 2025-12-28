@@ -18,8 +18,6 @@ class Car:
                 return True
         return False 
         
-
-        
     def __init__(self):
         self.hitbox = Hitbox(0, 0, 20, 40)
         self.speed = 0
@@ -38,12 +36,13 @@ class Car:
         if keys[pygame.K_UP]:    
             self.texture =  "ы"
             self.speed -= self.acceleration * dt
-        if keys[pygame.K_DOWN]:  self.speed += self.force * dt
+        if keys[pygame.K_DOWN]:
+            self.speed += self.force * dt
         if keys[pygame.K_RIGHT]: 
-            self.texture =  self.texturel
+            self.texture = self.texturel
             self.x += self.control_speed * dt
         if keys[pygame.K_LEFT]:  
-            self.texture =  self.texturer
+            self.texture = self.texturer
             self.x -= self.control_speed * dt
         self.y += self.speed * dt
         print(f"скорость: {self.speed}")

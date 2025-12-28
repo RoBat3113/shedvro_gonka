@@ -9,8 +9,6 @@ import lan
 
 class Game:
     def __init__(self):
-        lan.init()
-
         textures.bimport("ы", "infa/ы.png")
         textures.bimport("r", "infa/r.png")
         textures.bimport("l", "infa/l.png")
@@ -21,23 +19,61 @@ class Game:
         pygame.mixer.init()
         self.p1 = car.Batmobile()
         self.track = skald_gonshika.Track()
+        self.uploaded = None
 
-    def update(self, dt, keys):
+    def update_server(self, dt, keys):
+        from_client = ""
+        if lan.use_lan:
+            from_client = lan.upload_data()
+            print(f"from_client: {from_client}")
+            lan.send_data("test")
+
         self.p1.update(dt, keys)
         self.track.update(dt, self.p1)
+
+        # пройтись по всем объектам карты
         for ne_kamen in self.track.blocks:
+            # если врезались в пакень
             if self.p1.crash(ne_kamen.x,ne_kamen.y,80):
-                self.p1.texture = "gg"  
-                zov = pygame.mixer.Sound("infa/ggg.mp3")
+                self.p1.texture = "gg" # меняем себя на взрыв
+                zov = pygame.mixer.Sound("infa/ggg.mp3") # орёт
                 zov.play()
-                ne_kamen.texture = "kamen"  
-                break
-            else:
-                self.p1.texture = "ы"
+                ne_kamen.texture = "kamen" # камень злится  
+
+                # эпилепсия на фоне
+                core.bg_color = (
+                    random.randint(0,125),
+                    random.randint(0,125),
+                    random.randint(0,125))
+
+                break # одного столкновения достаточно
+
+            else: # никто не врезался
+                core.bg_color = (64, 127, 127) # обычный цвет фона
+                self.p1.texture = "ы" # ы
+        
+        # двигаем мир вокруг себя, но не себя самих - мы в центре мира
         self.p1.x = 0
         self.p1.y = 0
-        core.bg_color = (random.randint(0,125),random.randint(0,125),random.randint(0,125))
+    
+    def update_client(self, dt, keys):
+        to_server = ""
+        if keys[pygame.K_RIGHT]: to_server += "%key=r"
+        if keys[pygame.K_LEFT]:  to_server += "%key=l"
+        if keys[pygame.K_UP]:    to_server += "%key=u"
+        if keys[pygame.K_DOWN]:  to_server += "%key=d"
+        lan.send_data(to_server)
+        self.uploaded = lan.upload_data()
+
+    def update(self, dt, keys):
+        if lan.is_server:
+            self.update_server(dt, keys)
+        else:
+            self.update_client(dt, keys)
     
     def draw(self, screen):
-        self.track.draw(screen)
-        self.p1.draw(screen)
+        if lan.is_server:
+            self.track.draw(screen)
+            self.p1.draw(screen)
+        else:
+            print('client')

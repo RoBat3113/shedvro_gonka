@@ -40,7 +40,6 @@ class Track:
         for block in self.blocks:
             block.move(dt, car)
         
-    
     def draw(self, screen):
         for block in self.blocks:
             block.draw(screen)
