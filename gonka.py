@@ -2,9 +2,9 @@ import pygame
 import game
 import core
 #import font
-#import lan
+import lan
 
-#lan.init()
+lan.init()
 
 screen = pygame.display.set_mode((core.screen_x, core.screen_y), vsync=0)
 clock = pygame.time.Clock()

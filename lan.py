@@ -28,6 +28,7 @@ def init():
             is_server = False
             use_lan = True
         case _: 
+            is_server = True
             use_lan = False
 
     if not use_lan:        
