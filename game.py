@@ -20,6 +20,7 @@ class Game:
         self.p1 = car.Batmobile()
         self.track = skald_gonshika.Track()
         self.uploaded = None
+        self.zov_timer = 0
 
     def update_server(self, dt, keys):
         from_client = ""
@@ -35,12 +36,19 @@ class Game:
         for ne_kamen in self.track.blocks:
             # если врезались в пакень
             if self.p1.crash(ne_kamen.x,ne_kamen.y,80):
-                self.p1.texture = "gg"  
+                self.p1.texture = "gg"
+                ne_kamen.texture = "k3"
+
+                # не запускать новые звуки, пока время не придёт
+                if self.zov_timer > 0:
+                    continue
                 zov = pygame.mixer.Sound("infa/5.mp3")
                 zo = pygame.mixer.Sound("infa/6.mp3")
+                zov.set_volume(0.05)
+                zo.set_volume(0.05)
                 zo.play()
                 zov.play()
-                ne_kamen.texture = "k3"
+                self.zov_timer = 60 * 33
 
                 # эпилепсия на фоне
                 core.bg_color = (
@@ -68,6 +76,8 @@ class Game:
         self.uploaded = lan.upload_data()
 
     def update(self, dt, keys):
+        self.zov_timer -= 1
+
         if lan.is_server:
             self.update_server(dt, keys)
         else:
