@@ -40,8 +40,7 @@ class Game:
                 zo = pygame.mixer.Sound("infa/6.mp3")
                 zo.play()
                 zov.play()
-                ne_kamen.texture = "k3"  
-                break
+                ne_kamen.texture = "k3"
 
                 # эпилепсия на фоне
                 core.bg_color = (

@@ -7,5 +7,3 @@ running = True # если станет False, игра вырубится
 # камера игры
 camera_x = screen_x / 2
 camera_y = screen_y / 2
-
-
