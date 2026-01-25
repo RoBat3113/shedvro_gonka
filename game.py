@@ -39,9 +39,16 @@ class Game:
                 self.p1.texture = "gg"
                 ne_kamen.texture = "k3"
 
+                # эпилепсия на фоне
+                core.bg_color = (
+                    random.randint(0,125),
+                    random.randint(0,125),
+                    random.randint(0,125))
+
                 # не запускать новые звуки, пока время не придёт
                 if self.zov_timer > 0:
-                    continue
+                    break
+                
                 zov = pygame.mixer.Sound("infa/5.mp3")
                 zo = pygame.mixer.Sound("infa/6.mp3")
                 zov.set_volume(0.05)
@@ -49,13 +56,6 @@ class Game:
                 zo.play()
                 zov.play()
                 self.zov_timer = 60 * 33
-
-                # эпилепсия на фоне
-                core.bg_color = (
-                    random.randint(0,125),
-                    random.randint(0,125),
-                    random.randint(0,125))
-
                 break # одного столкновения достаточно
 
             else: # никто не врезался
