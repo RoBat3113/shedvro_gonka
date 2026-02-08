@@ -4,6 +4,7 @@ import core
 import car
 import textures
 import skald_gonshika
+import komanda_tvicha
 import random
 import lan
 
@@ -26,8 +27,32 @@ class Game:
         from_client = ""
         if lan.use_lan:
             from_client = lan.upload_data()
-            print(f"from_client: {from_client}")
-            lan.send_data("test")
+            if from_client == '':
+                return
+            #print(f"from_client: {from_client}")
+            #lan.send_data("test")
+            commands = from_client.split('%')
+            #print(f'commands: {commands}')
+            for cmd in commands:
+                if cmd == '':
+                    continue
+                params = cmd.split('=')
+                if params[0] == 'key':
+                    if params[1] == 'u': komanda_tvicha.kamni3()
+                    if params[1] == 'l': komanda_tvicha.kamni34()
+                    if params[1] == 'r': komanda_tvicha.kamni5()
+                    if params[1] == 'd': komanda_tvicha.kamni6()
+                    if params[1] == '1': komanda_tvicha.kamni7()
+                    if params[1] == '2': komanda_tvicha.kamni8()
+
+        # замедлить игрока в 10 раз
+        if core.stop_me:
+            dt *= 0.1
+            core.stop_me = False
+        
+        if core.time_reverse:
+            dt = -dt
+            core.time_reverse = False
 
         self.p1.update(dt, keys)
         self.track.update(dt, self.p1)
@@ -61,7 +86,7 @@ class Game:
             else: # никто не врезался
                 core.bg_color = (64, 127, 127) # обычный цвет фона
                 self.p1.texture = "ы" # ы
-        
+
         # двигаем мир вокруг себя, но не себя самих - мы в центре мира
         self.p1.x = 0
         self.p1.y = 0
@@ -72,8 +97,10 @@ class Game:
         if keys[pygame.K_LEFT]:  to_server += "%key=l"
         if keys[pygame.K_UP]:    to_server += "%key=u"
         if keys[pygame.K_DOWN]:  to_server += "%key=d"
+        if keys[pygame.K_1]:     to_server += "%key=1"
+        if keys[pygame.K_2]:     to_server += "%key=2"
         lan.send_data(to_server)
-        self.uploaded = lan.upload_data()
+        #self.uploaded = lan.upload_data()
 
     def update(self, dt, keys):
         self.zov_timer -= 1

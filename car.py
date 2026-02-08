@@ -45,7 +45,8 @@ class Car:
             self.texture = self.texturer
             self.x -= self.control_speed * dt
         self.y += self.speed * dt
-        print(f"скорость: {self.speed}")
+
+        #print(f"скорость: {self.speed}")
 
     def draw(self, screen):
         self.hitbox.x = self.x
