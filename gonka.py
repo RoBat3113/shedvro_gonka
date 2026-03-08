@@ -21,7 +21,13 @@ while core.running:
                 core.running = False
         if event.type == pygame.QUIT:
             core.running = False
-
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == pygame.BUTTON_LEFT: 
+                core.mp = event.pos # в этом месте экрана
+                core.mk = True # нажали левую кнопку
+            else:
+                core.mk = False
+            
     keys = pygame.key.get_pressed()
     g.update(1.0/core.max_fps, keys)
     

@@ -10,3 +10,6 @@ camera_y = screen_y / 2
 
 time_reverse = True
 stop_me = False
+
+mp = (0,0) # здесь мышка сейчас
+mk = False

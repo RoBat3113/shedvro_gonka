@@ -7,7 +7,7 @@ import skald_gonshika
 import komanda_tvicha
 import random
 import lan
-
+import knopka
 class Game:
     def __init__(self):
         textures.bimport("ы", "infa/ы.png")
@@ -17,11 +17,20 @@ class Game:
         textures.bimport("k3", "infa/k3.png")
         textures.bimport("г", "infa/г.png")
         textures.bimport("gg", "infa/gg.png")
+        textures.bimport("12", "infa/12.png")
+        textures.bimport("13", "infa/13.png")
+        textures.bimport("14", "infa/14.png")
+        textures.bimport("15", "infa/15.png")
         pygame.mixer.init()
         self.p1 = car.Batmobile()
         self.track = skald_gonshika.Track()
         self.uploaded = None
         self.zov_timer = 0
+        self.knipka = knopka.knopka(30,60,  66,66,"12",komanda_tvicha.kamni3)
+        self.knipka2 = knopka.knopka(30,120,  66,66,"13",komanda_tvicha.kamni6)
+        self.knipka3 = knopka.knopka(30,180,  66,66,"14",komanda_tvicha.kamni7)
+        self.knipka4 = knopka.knopka(30,240,  66,66,"15",komanda_tvicha.kamni8)
+        
 
     def update_server(self, dt, keys):
         from_client = ""
@@ -107,6 +116,11 @@ class Game:
 
         if lan.is_server:
             self.update_server(dt, keys)
+            if core.mk == True:
+                self.knipka.update(core.mp)
+                self.knipka2.update(core.mp)
+                self.knipka3.update(core.mp)
+                self.knipka4.update(core.mp)
         else:
             self.update_client(dt, keys)
     
@@ -116,3 +130,7 @@ class Game:
             self.p1.draw(screen)
         else:
             print('client')
+        self.knipka.draw(screen)
+        self.knipka2.draw(screen)
+        self.knipka3.draw(screen)
+        self.knipka4.draw(screen)
